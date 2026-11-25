@@ -1,0 +1,9 @@
+button,from_top_mm,from_top_exact_mm,from_bottom_mm,from_bottom_exact_mm,pinned
+1,20,20/1,580,580/1,true
+2,100,100/1,500,500/1,false
+3,180,180/1,420,420/1,true
+4,266.667,800/3,333.333,1000/3,false
+5,353.333,1060/3,246.667,740/3,false
+6,440,440/1,160,160/1,true
+7,510,510/1,90,90/1,false
+8,580,580/1,20,20/1,true

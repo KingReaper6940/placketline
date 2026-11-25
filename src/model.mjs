@@ -6,7 +6,7 @@ export const value=a=>Number(a.n)/Number(a.d);
 export const exact=a=>a.n+'/'+a.d;
 export function decimal(a,places=3){const sign=a.n<0n?'-':'',n=a.n<0n?-a.n:a.n,m=10n**BigInt(places),v=(n*m*2n+a.d)/(2n*a.d),whole=v/m,part=(v%m).toString().padStart(places,'0').replace(/0+$/,'');return sign+whole+(part?'.'+part:'');}
 export function mm(s,label='Measurement'){if(typeof s!=='string'||! /^(0|[1-9]\d{0,3})(\.\d{1,2})?$/.test(s))throw Error(label+' must be millimeters with at most two decimal places (no spaces).');const [a,b='']=s.split('.');return BigInt(a)*100n+BigInt(b.padEnd(2,'0'));}
-export function integer(s,min,max,label){if(typeof s==='string'&&!/^(0|[1-9]\d*)$/.test(s))throw Error(label+' must be a whole number.');const n=typeof s==='number'?s:Number(s);if(!Number.isSafeInteger(n)||n<min||n>max)throw Error(label+' must be '+min+' to '+max+'.');return n;}
+export function integer(s,min,max,label){if(!['string','number'].includes(typeof s))throw Error(label+' must be a whole number.');if(typeof s==='string'&&!/^(0|[1-9]\d*)$/.test(s))throw Error(label+' must be a whole number.');const n=typeof s==='number'?s:Number(s);if(!Number.isSafeInteger(n)||n<min||n>max)throw Error(label+' must be '+min+' to '+max+'.');return n;}
 const keys=(o,k)=>o&&typeof o==='object'&&!Array.isArray(o)&&Object.keys(o).sort().join('|')===k.slice().sort().join('|');
 export function validate(p){
  if(!keys(p,['schema','title','length','count','first','last','anchors','paper'])||p.schema!=='placketline/1')throw Error('Unsupported project schema.');

@@ -1,0 +1,134 @@
+{
+  "schema": "placketline-receipt/1",
+  "project": {
+    "schema": "placketline/1",
+    "title": "Practice shirt band",
+    "length": "600",
+    "count": 8,
+    "first": "20",
+    "last": "580",
+    "anchors": [
+      {
+        "button": 3,
+        "at": "180"
+      },
+      {
+        "button": 6,
+        "at": "440"
+      }
+    ],
+    "paper": "A4"
+  },
+  "units": "mm",
+  "rounding": "display is half-up to 3 decimals; exact fractions and PDF geometry are not based on those rounded strings",
+  "positions": [
+    {
+      "button": 1,
+      "fromTopExact": "20/1",
+      "fromTop": "20",
+      "fromBottomExact": "580/1",
+      "fromBottom": "580",
+      "pinned": true
+    },
+    {
+      "button": 2,
+      "fromTopExact": "100/1",
+      "fromTop": "100",
+      "fromBottomExact": "500/1",
+      "fromBottom": "500",
+      "pinned": false
+    },
+    {
+      "button": 3,
+      "fromTopExact": "180/1",
+      "fromTop": "180",
+      "fromBottomExact": "420/1",
+      "fromBottom": "420",
+      "pinned": true
+    },
+    {
+      "button": 4,
+      "fromTopExact": "800/3",
+      "fromTop": "266.667",
+      "fromBottomExact": "1000/3",
+      "fromBottom": "333.333",
+      "pinned": false
+    },
+    {
+      "button": 5,
+      "fromTopExact": "1060/3",
+      "fromTop": "353.333",
+      "fromBottomExact": "740/3",
+      "fromBottom": "246.667",
+      "pinned": false
+    },
+    {
+      "button": 6,
+      "fromTopExact": "440/1",
+      "fromTop": "440",
+      "fromBottomExact": "160/1",
+      "fromBottom": "160",
+      "pinned": true
+    },
+    {
+      "button": 7,
+      "fromTopExact": "510/1",
+      "fromTop": "510",
+      "fromBottomExact": "90/1",
+      "fromBottom": "90",
+      "pinned": false
+    },
+    {
+      "button": 8,
+      "fromTopExact": "580/1",
+      "fromTop": "580",
+      "fromBottomExact": "20/1",
+      "fromBottom": "20",
+      "pinned": true
+    }
+  ],
+  "sections": [
+    {
+      "from": 1,
+      "to": 3,
+      "gapExact": "80/1",
+      "gap": "80"
+    },
+    {
+      "from": 3,
+      "to": 6,
+      "gapExact": "260/3",
+      "gap": "86.667"
+    },
+    {
+      "from": 6,
+      "to": 8,
+      "gapExact": "70/1",
+      "gap": "70"
+    }
+  ],
+  "tiles": [
+    {
+      "page": 1,
+      "start": 0,
+      "end": 200
+    },
+    {
+      "page": 2,
+      "start": 190,
+      "end": 390
+    },
+    {
+      "page": 3,
+      "start": 380,
+      "end": 580
+    },
+    {
+      "page": 4,
+      "start": 570,
+      "end": 600
+    }
+  ],
+  "labelsSuppressed": false,
+  "scope": "Button centers only. Physical printing and sewing must be checked; no hole length, fit, strength or gaping guarantee."
+}
