@@ -2,6 +2,8 @@
 
 **Keep the important marks. Space the rest.**
 
+[Open Placketline](https://placketline.vercel.app)
+
 Placketline plans button **centers** around multiple fixed positions and produces calibrated, tiled PDF marking strips. Every center is measured from one top edge, so you can check the complete layout before transferring marks.
 
 - Fix the first and last centers, then pin any interior button numbers.
@@ -75,7 +77,7 @@ Import the repository, choose **Other**, leave the root directory empty, use `np
 
 For each adjacent anchor pair, the gap is the position difference divided by the button-number difference. Positions use reduced BigInt fractions derived from hundredth-millimeter input. A separate audit checks count, order, endpoint and interior pin preservation, equal gaps within each section, reverse-edge positions and tile coverage.
 
-`npm test` runs 28 checks, including 4,617 single-anchor layouts verified using independent cross-multiplied equations, all 2,000 supported integer band lengths for coverage/overlap, exact examples, 50-center exports, A4/Letter PDF media and cross-reference offsets, actual calibration-line lengths, import races, stale exports and local Blob contents. CI runs tests and the static build on Windows and Linux with Node 22 and 24.
+`npm test` runs 29 checks, including 4,617 single-anchor layouts verified using independent cross-multiplied equations, all 2,000 supported integer band lengths for coverage/overlap, exact examples, 50-center exports, A4/Letter PDF media and cross-reference offsets, actual calibration-line lengths, committed PDF byte integrity, import races, stale exports and local Blob contents. CI runs tests and the static build on Windows and Linux with Node 22 and 24.
 
 The example PDFs were rendered and inspected. Automated DOM checks do not establish native browser layout, screen-reader behavior, print-driver accuracy or physical sewing results.
 
