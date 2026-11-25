@@ -1,0 +1,1 @@
+export const example={schema:'placketline/1',title:'Practice shirt band',length:'600',count:8,first:'20',last:'580',anchors:[{button:3,at:'180'},{button:6,at:'440'}],paper:'A4'};
