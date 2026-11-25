@@ -1,0 +1,21 @@
+import {validate,integer,anchorText,projectFromText,decimal,exact} from './model.mjs';
+import {layout} from './layout.mjs';
+import {example} from './example.mjs';
+import {escape,projectJSON,receiptJSON,positionsCSV,overviewSVG} from './exports.mjs';
+import {markingPDF} from './pdf.mjs';
+import {saveFile} from './files.mjs';
+export function mount(document,save=saveFile){
+ const $=id=>document.getElementById(id),buttons=[...document.querySelectorAll('[data-export]')];let result=null,revision=0;
+ function status(s,error=false){$('status').textContent=s;$('status').classList.toggle('error',error);}
+ function invalidate(message='Inputs changed. Plan again to unlock current downloads.'){revision++;result=null;$('result').hidden=true;$('empty').hidden=false;buttons.forEach(b=>b.disabled=true);status(message);}
+ function fill(p){for(const k of ['title','length','count','first','last','paper'])$(k).value=p[k];$('anchors').value=p.anchors.map(a=>a.button+', '+a.at).join('\n');$('project-file').value='';}
+ function read(){const count=integer($('count').value,2,50,'Button count');return validate({schema:'placketline/1',title:$('title').value,length:$('length').value,count,first:$('first').value,last:$('last').value,anchors:anchorText($('anchors').value,count),paper:$('paper').value});}
+ function calculate(){invalidate();try{const r=layout(read());result=r;$('result-title').textContent=r.project.title;$('summary').innerHTML='<div><strong>'+r.positions.length+'</strong><span>button centers</span></div><div><strong>'+decimal(r.minGap)+'–'+decimal(r.maxGap)+'</strong><span>center gaps / mm</span></div><div><strong>'+r.tiles.length+'</strong><span>'+r.project.paper+' PDF pages</span></div>';$('diagram').innerHTML=overviewSVG(r);$('layout-note').textContent='Spacing is equal within each anchor section; different sections can have different gaps.'+(r.labelsSuppressed?' Dense layout: all PDF crosses are drawn, but button-number labels are suppressed. Use the position table.':'')+' Check the print scale and assembled strip before use.';$('positions').innerHTML=r.positions.map(p=>'<tr class="'+(p.pinned?'pinned':'')+'"><th scope="row">'+p.button+'</th><td>'+decimal(p.at)+'</td><td>'+decimal(p.fromBottom)+'</td><td>'+(p.pinned?'Pinned':'Spaced')+'</td></tr>').join('');$('sections').innerHTML=r.sections.map(s=>'<tr><th scope="row">'+s.from+'–'+s.to+'</th><td>'+decimal(s.gap)+'</td><td>'+exact(s.gap)+'</td></tr>').join('');$('result').hidden=false;$('empty').hidden=true;buttons.forEach(b=>b.disabled=false);status('Layout ready. '+r.positions.length+' centers checked against all fixed anchors.');}catch(e){status(e.message,true);}}
+ $('settings').addEventListener('submit',e=>{e.preventDefault();calculate();});$('settings').addEventListener('input',()=>invalidate());$('settings').addEventListener('change',()=>invalidate());
+ $('sample').addEventListener('click',()=>{invalidate();fill(structuredClone(example));calculate();});
+ $('reset').addEventListener('click',()=>{invalidate('Workspace cleared. Enter measurements or load the example.');fill({title:'',length:'',count:2,first:'',last:'',anchors:[],paper:'A4'});});
+ $('project-file').addEventListener('change',async()=>{const file=$('project-file').files?.[0];if(!file)return;invalidate('Reading project…');const token=revision;try{if(file.size>20000)throw Error('Project exceeds 20,000 UTF-8 bytes.');const p=projectFromText(await file.text());if(token!==revision)return;fill(p);calculate();}catch(e){if(token===revision)status('Import failed; inputs unchanged. '+e.message,true);}});
+ for(const b of buttons)b.addEventListener('click',()=>{if(!result)return;try{const kind=b.dataset.export,items={pdf:['marking-strips.pdf',()=>markingPDF(result),'application/pdf'],csv:['positions.csv',()=>positionsCSV(result),'text/csv;charset=utf-8'],receipt:['receipt.json',()=>receiptJSON(result),'application/json'],project:['project.json',()=>projectJSON(result),'application/json']},[name,make,type]=items[kind];save(document,name,make(),type);status('Prepared '+name+'. For PDF printing, verify both calibration bars.');}catch(e){status(e.message,true);}});
+ fill(structuredClone(example));calculate();return {calculate,getResult:()=>result};
+}
+if(typeof document!=='undefined')mount(document);
